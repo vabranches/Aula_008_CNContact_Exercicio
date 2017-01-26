@@ -1,24 +1,35 @@
-//
-//  ViewController.swift
-//  Aula_008_CNContact_Exercicio
-//
-//  Created by Swift on 26/01/17.
-//  Copyright © 2017 Swift. All rights reserved.
-//
-
 import UIKit
+import ContactsUI
 
-class ViewController: UIViewController {
+class ViewController: UIViewController , CNContactPickerDelegate{
+    
+    //MARK: Outlets
+    @IBOutlet weak var textFieldContato: UILabel!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+    }
+    
+    //MARK: Actions
+    @IBAction func abrir(_ sender: UIButton) {
+        let meuContactPicker = CNContactPickerViewController()
+        meuContactPicker.delegate = self
+        
+        present(meuContactPicker, animated: true)
+    }
+    
+    //MARK: Métodos de CNContactPickerDelegate
+    func contactPickerDidCancel(_ picker: CNContactPickerViewController) {
+        picker.dismiss(animated: true)
+    }
+    
+    func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
+        textFieldContato.text = "\(contact.givenName) \(contact.familyName)"
+        picker.dismiss(animated: true)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
 
 }
